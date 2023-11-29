@@ -83,6 +83,34 @@ const addPizza = (id) => {
     cart.value.push({ ...pizza, quantity: 1 })
   }
 }
+
+const getTotalPrice = () => {
+  var total = 0
+
+  cart.value.forEach((item) => {
+    total += item.price * item.quantity
+  })
+  return total.toFixed(2)
+}
+
+const reduceItem = (id) => {
+  var item = cart.value.find((item) => item.id == id)
+  if (item.quantity > 1) {
+    item.quantity--
+  } else {
+    console.log("entrou")
+    cart.value = cart.value.filter((item) => item.id != id)
+  }
+}
+
+const addItem = (id) => {
+  var item = cart.value.find((item) => item.id == id)
+  item.quantity++
+}
+
+const removeItem = (id) => {
+  cart.value = cart.value.filter((item) => item.id != id)
+}
 </script>
 
 <template>
@@ -150,9 +178,19 @@ const addPizza = (id) => {
                 }}
               </h5>
               <p>
-                <button type="button" class="add">+</button>
+                <button
+                  type="button"
+                  class="add"
+                  @click="addItem(pizza.id)"
+                >
+                  +
+                </button>
                 {{ pizza.quantity }}
-                <button type="button" class="remove">
+                <button
+                  type="button"
+                  class="remove"
+                  @click="reduceItem(pizza.id)"
+                >
                   -
                 </button>
               </p>
@@ -169,7 +207,11 @@ const addPizza = (id) => {
                 >
               </div>
             </div>
-            <button class="remove-icon" type="button">
+            <button
+              class="remove-icon"
+              type="button"
+              @click="removeItem(pizza.id)"
+            >
               x
             </button>
           </div>
@@ -181,7 +223,9 @@ const addPizza = (id) => {
 
         <div class="total-section">
           <h6 class="total-title">Total payment:</h6>
-          <span class="amount"> €0 </span>
+          <span class="amount">
+            €{{ getTotalPrice() }}
+          </span>
         </div>
       </div>
     </div>
