@@ -1,4 +1,75 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue"
+
+const menu = ref([
+  {
+    id: 1,
+    image: "pizza-1.png",
+    name: "BISMARCK",
+    price: 30,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 2,
+    image: "pizza-2.png",
+    name: "FIORI DI ZUCCA",
+    price: 50,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 3,
+    image: "pizza-3.png",
+    name: "VALDOSTANA",
+    price: 55,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 4,
+    image: "pizza-4.png",
+    name: "PIZZA TARTUFATA",
+    price: 45,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 5,
+    image: "pizza-5.png",
+    name: "FRANCESCANA",
+    price: 25,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 6,
+    image: "pizza-6.png",
+    name: "BOSCAIOLA",
+    price: 85,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 7,
+    image: "pizza-7.png",
+    name: "MARE E MONTI",
+    price: 65,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+  {
+    id: 8,
+    image: "pizza-8.png",
+    name: "MARE E MONTI",
+    price: 95,
+    calories: "800 kcal",
+    fats: "50 g",
+  },
+])
+
+const cart = ref([])
+</script>
 
 <template>
   <div class="container-fluid h-100">
@@ -17,15 +88,20 @@
         <div class="row row-cols-4 mt-4">
           <div
             class="col justify-content-center text-center"
+            v-for="(pizza, index) in menu"
+            v-bind:key="index"
           >
             <div class="d-flex flex-column item">
               <img
                 class="w-100"
-                src="./assets/images/pizza-1.png"
+                :src="`../src/assets/images/${pizza.image}`"
+                :alt="pizza.name"
               />
               <div class="p-3">
-                <h5 class="item-name">Pizza #1</h5>
-                <h6 class="item-price">€20.20</h6>
+                <h5 class="item-name">{{ pizza.name }}</h5>
+                <h6 class="item-price">
+                  €{{ pizza.price }}
+                </h6>
                 <button type="button" class="add-cart">
                   Add to Cart
                 </button>
@@ -34,45 +110,17 @@
           </div>
         </div>
       </div>
+
       <div class="col-3 cart p-4">
         <h3 class="title">Your Basket</h3>
 
-        <div class="order-items">
-          <div class="order-item mb-4">
-            <img
-              class="order-item-image"
-              src="./assets/images/pizza-1.png"
-            />
-            <div class="order-item-content">
-              <h5>Pizza #1 - €20.20</h5>
-              <p>
-                <button type="button" class="add">+</button>
-                1
-                <button type="button" class="remove">
-                  -
-                </button>
-              </p>
-
-              <div class="order-item-details">
-                <span>
-                  <strong>Calories:</strong>
-                  200
-                </span>
-                <span> <strong>Fats:</strong> 100 </span>
-              </div>
-            </div>
-            <button class="remove-icon" type="button">
-              x
-            </button>
-          </div>
-        </div>
         <div class="cart-empty">
           <p class="text-center">Your basket is empty</p>
         </div>
 
         <div class="total-section">
           <h6 class="total-title">Total payment:</h6>
-          <span class="amount"> € </span>
+          <span class="amount"> €0</span>
         </div>
       </div>
     </div>
