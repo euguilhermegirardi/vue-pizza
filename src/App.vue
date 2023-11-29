@@ -69,6 +69,20 @@ const menu = ref([
 ])
 
 const cart = ref([])
+
+const addPizza = (id) => {
+  let pizza = menu.value.find((pizza) => pizza.id == id)
+  console.log(pizza)
+  let pizzaIndex = cart.value.findIndex(
+    (pizza) => pizza.id == id
+  )
+
+  if (pizzaIndex != -1) {
+    cart[pizzaIndex].quantity++
+  } else {
+    cart.value.push({ ...pizza, quantity: 1 })
+  }
+}
 </script>
 
 <template>
@@ -102,7 +116,11 @@ const cart = ref([])
                 <h6 class="item-price">
                   €{{ pizza.price }}
                 </h6>
-                <button type="button" class="add-cart">
+                <button
+                  type="button"
+                  class="add-cart"
+                  @click="addPizza(pizza.id)"
+                >
                   Add to Cart
                 </button>
               </div>
@@ -114,13 +132,56 @@ const cart = ref([])
       <div class="col-3 cart p-4">
         <h3 class="title">Your Basket</h3>
 
-        <div class="cart-empty">
+        <div class="order-items" v-if="cart.length > 0">
+          <div
+            class="order-item mb-4"
+            v-for="pizza in cart"
+            :key="pizza.id"
+          >
+            <img
+              class="order-item-image"
+              :src="`../src/assets/images/${pizza.image}`"
+              :alt="pizza.name"
+            />
+            <div class="order-item-content">
+              <h5>
+                {{ pizza.name }} - €{{
+                  pizza.price.toFixed(2)
+                }}
+              </h5>
+              <p>
+                <button type="button" class="add">+</button>
+                {{ pizza.quantity }}
+                <button type="button" class="remove">
+                  -
+                </button>
+              </p>
+
+              <div class="order-item-details">
+                <span>
+                  <strong
+                    >Calories: {{ pizza.calories }}</strong
+                  >
+                </span>
+                <span>
+                  <strong>Fats: </strong
+                  >{{ pizza.fats }}</span
+                >
+              </div>
+            </div>
+            <button class="remove-icon" type="button">
+              x
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-empty" v-else>
           <p class="text-center">Your basket is empty</p>
         </div>
 
         <div class="total-section">
           <h6 class="total-title">Total payment:</h6>
-          <span class="amount"> €0</span>
+          <span class="amount"> €0 </span>
         </div>
       </div>
     </div>
